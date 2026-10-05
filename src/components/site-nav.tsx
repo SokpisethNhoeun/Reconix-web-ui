@@ -3,6 +3,7 @@ import { NavCta } from "@/components/nav-cta";
 
 const links = [
   { href: "/#showcase", label: "Features" },
+  { href: "/#product", label: "Product" },
   { href: "/#workflow", label: "How it works" },
   { href: "/#guardrails", label: "Guardrails" },
   { href: "/docs", label: "Docs" },

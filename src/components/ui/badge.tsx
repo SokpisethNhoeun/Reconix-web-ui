@@ -12,6 +12,8 @@ const badgeVariants = cva(
         accent: "border-accent/40 bg-accent/10 text-accent",
         /** pass states and LOW risk */
         success: "border-success/40 bg-success/10 text-success",
+        /** CRITICAL / HIGH finding severity (product previews only) */
+        danger: "border-danger/40 bg-danger/10 text-danger",
         muted: "border-border bg-muted text-muted-foreground",
         outline: "border-border bg-card/70 text-foreground",
         /** live-status pill with a pulsing dot (hero) */
