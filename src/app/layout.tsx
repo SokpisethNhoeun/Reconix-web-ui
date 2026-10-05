@@ -32,6 +32,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${display.variable} ${body.variable} ${mono.variable}`}>
+      <head>
+        {/* eslint-disable-next-line @next/next/no-sync-scripts */}
+        <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async />
+      </head>
       <body className="min-h-screen antialiased">
         <SmoothScroll />
         <ScrollProgress />
