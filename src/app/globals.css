@@ -1,0 +1,259 @@
+@import "tailwindcss";
+@import "lenis/dist/lenis.css";
+
+/* Reconix design tokens: dark operator console. Blue for UI and the hero glow,
+   amber for approval gates, green for pass / LOW-risk states. */
+:root {
+  --background: #070a10;
+  --foreground: #e4eaf4;
+  --card: #0c121c;
+  --card-foreground: #e4eaf4;
+  --muted: #121a28;
+  --muted-foreground: #8693a8;
+  --border: #1a2435;
+  --primary: #4c8dff;
+  --primary-foreground: #06101f;
+  --accent: #f2b544;
+  --success: #39d353;
+  --ring: #4c8dff;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-accent: var(--accent);
+  --color-success: var(--success);
+  --color-ring: var(--ring);
+  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+html {
+  color-scheme: dark;
+}
+
+/* Native smooth anchors only when Lenis is not driving the page (no JS).
+   Lenis adds the `lenis` class to <html>; reduced-motion users get neither. */
+@media (prefers-reduced-motion: no-preference) {
+  html:not(.lenis) { scroll-behavior: smooth; }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  /* clip, not hidden: hidden would make body a scroll container (breaks sticky + Lenis) */
+  overflow-x: clip;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+/* ---- Hero: operator-console CRT ---- */
+.hero-scan { pointer-events: none; overflow: hidden; }
+/* static fine scanlines */
+.hero-scan::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0 2px,
+    color-mix(in oklab, var(--background) 35%, transparent) 2px 3px
+  );
+}
+/* slow sweep down the panel */
+.hero-scan::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: -25%;
+  height: 25%;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    color-mix(in oklab, var(--primary) 7%, transparent) 50%,
+    transparent
+  );
+  animation: hero-sweep 10s linear 1.6s infinite;
+}
+@keyframes hero-sweep { to { transform: translateY(500%); } }
+
+.cursor { animation: blink 1s steps(2, start) infinite; }
+@keyframes blink { to { visibility: hidden; } }
+
+/* ---- ASCII-art banners (figlet, server-rendered) ---- */
+.ascii-banner { letter-spacing: 0; white-space: pre; line-height: 1; }
+
+.ascii-banner--section {
+  font-size: clamp(5px, 0.72vw, 10px);
+  text-shadow:
+    0 0 10px color-mix(in oklab, var(--primary) 45%, transparent),
+    0 0 28px color-mix(in oklab, var(--primary) 20%, transparent);
+}
+@media (min-width: 1024px) { .ascii-banner--section { font-size: clamp(6px, 0.62vw, 9.5px); } }
+
+/* Hero wordmark: 28 cols x ~0.6em advance = 16.8em wide
+   -> ~314px at 360px viewports, ~970px cap on desktop. */
+.ascii-banner--hero {
+  font-size: clamp(1rem, 5.2vw, 3.6rem);
+  text-shadow:
+    0 0 0.12em color-mix(in oklab, var(--primary) 65%, transparent),
+    0 0 0.45em color-mix(in oklab, var(--primary) 35%, transparent),
+    0 0 1.3em color-mix(in oklab, var(--primary) 18%, transparent);
+  animation: ascii-settle 900ms ease-out 1.15s backwards;
+}
+/* rows boot in top -> bottom, one cell per step; `backwards` releases the clip
+   once done so the glow is not cropped to the row box */
+.ascii-banner--hero .ascii-line {
+  animation: ascii-boot 420ms steps(28, end) backwards;
+  animation-delay: calc(180ms + var(--i, 0) * 280ms);
+}
+@keyframes ascii-boot {
+  from { clip-path: inset(0 100% 0 0); opacity: 0.4; }
+  to { clip-path: inset(0); opacity: 1; }
+}
+@keyframes ascii-settle {
+  from { filter: brightness(1.9) saturate(1.4); }
+  to { filter: none; }
+}
+
+/* ---- Showcase: dark fade over the node graph behind the text column; `--fade-dir` flips per item ---- */
+@utility showcase-fade {
+  background: linear-gradient(
+    var(--fade-dir, 90deg),
+    color-mix(in oklab, var(--background) 97%, transparent) 0%,
+    color-mix(in oklab, var(--background) 90%, transparent) 40%,
+    color-mix(in oklab, var(--background) 45%, transparent) 55%,
+    color-mix(in oklab, var(--background) 5%, transparent) 72%
+  );
+}
+
+/* ---- Tool marquee (ToolMarquee): two copies of the list, the track slides by half its width.
+   Spacing is padding on each item (not flex gap) so both copies are exactly the same width
+   and the loop point is invisible. Hover pauses; reduced motion shows one static wrapped row. ---- */
+.marquee {
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 48s linear infinite;
+}
+.marquee-item { padding-right: 3.5rem; }
+.marquee:hover .marquee-track { animation-play-state: paused; }
+@keyframes marquee { to { transform: translateX(-50%); } }
+
+/* ---- Showcase text: the active step wipes in left -> right (like a terminal printing a line),
+   one child after another; the previous step fades out in place. Driven by data-state. ---- */
+.wipe > * {
+  clip-path: inset(0 0 0 0);
+  transition:
+    clip-path 0.7s cubic-bezier(0.2, 0.7, 0.2, 1),
+    opacity 0.25s ease;
+}
+.wipe[data-state="in"] > :nth-child(2) { transition-delay: 70ms; }
+.wipe[data-state="in"] > :nth-child(3) { transition-delay: 140ms; }
+.wipe[data-state="in"] > :nth-child(4) { transition-delay: 210ms; }
+.wipe[data-state="in"] > :nth-child(5) { transition-delay: 280ms; }
+.wipe[data-state="out"] > * {
+  clip-path: inset(0 100% 0 0);
+  opacity: 0;
+  /* fade first, then park the clip at the left edge so the next entrance wipes in again */
+  transition:
+    opacity 0.25s ease,
+    clip-path 0s linear 0.25s;
+}
+
+/* ---- Section backdrops (SectionShell `backdrop`) ----
+   ::before = tiled pattern (masked), ::after = radial glow. Colours are
+   color-mix of tokens so a palette change re-tints every section. */
+.backdrop { position: absolute; inset: 0; z-index: -10; pointer-events: none; }
+.backdrop::before,
+.backdrop::after { content: ""; position: absolute; inset: 0; }
+.backdrop::before {
+  background-image: var(--bd-pattern);
+  background-size: var(--bd-size, auto);
+  mask-image: var(--bd-mask, none);
+}
+.backdrop::after { background-image: var(--bd-glow); }
+
+/* Workflow: blueprint grid, glow top-left */
+.backdrop-grid {
+  --bd-size: 48px 48px;
+  --bd-pattern:
+    linear-gradient(to right, color-mix(in oklab, var(--primary) 9%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklab, var(--primary) 9%, transparent) 1px, transparent 1px);
+  --bd-mask: radial-gradient(ellipse 80% 75% at 25% 30%, #000 25%, transparent 100%);
+  --bd-glow: radial-gradient(45% 55% at 15% 25%, color-mix(in oklab, var(--primary) 12%, transparent), transparent 70%);
+}
+/* Categories: cursor-reactive dot matrix (a canvas, see src/lib/dot-field.ts), faint glow top-right */
+.backdrop-dots {
+  --bd-glow: radial-gradient(40% 50% at 85% 20%, color-mix(in oklab, var(--primary) 8%, transparent), transparent 70%);
+}
+.backdrop-dots > canvas {
+  mask-image: linear-gradient(to bottom, transparent, #000 20%, #000 80%, transparent);
+}
+/* Guardrails: amber hazard diagonals + amber glow right (approval gates) */
+.backdrop-hazard {
+  --bd-pattern: repeating-linear-gradient(135deg, color-mix(in oklab, var(--accent) 6%, transparent) 0 2px, transparent 2px 28px);
+  --bd-mask: radial-gradient(ellipse 90% 80% at 80% 30%, #000 20%, transparent 100%);
+  --bd-glow: radial-gradient(45% 55% at 85% 25%, color-mix(in oklab, var(--accent) 10%, transparent), transparent 70%);
+}
+/* Knowledge: horizontal scanlines, blue glow bottom-left */
+.backdrop-scanlines {
+  --bd-size: 100% 4px;
+  --bd-pattern: linear-gradient(to bottom, color-mix(in oklab, var(--foreground) 5%, transparent) 1px, transparent 1px);
+  --bd-mask: linear-gradient(to right, #000 60%, transparent);
+  --bd-glow: radial-gradient(50% 60% at 20% 75%, color-mix(in oklab, var(--primary) 10%, transparent), transparent 70%);
+}
+/* Hero + CTA: blue glow over a 40px pixel grid (the page's bookends) */
+.backdrop-glow {
+  --bd-size: 40px 40px;
+  --bd-pattern:
+    linear-gradient(to right, color-mix(in oklab, var(--foreground) 3.5%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklab, var(--foreground) 3.5%, transparent) 1px, transparent 1px);
+  --bd-mask: radial-gradient(ellipse 70% 80% at 50% 50%, #000 30%, transparent 100%);
+  --bd-glow: radial-gradient(45% 60% at 50% 55%, color-mix(in oklab, var(--primary) 18%, transparent), transparent 70%);
+}
+/* Opt-in slow drift of the tile layer (transform only; the tile must divide 48px:
+   grid 48, dots 24, scanlines 4 — not hazard/glow). */
+.backdrop-drift::before { inset: -48px; animation: backdrop-drift 60s linear infinite; }
+@keyframes backdrop-drift { to { transform: translate(48px, 48px); } }
+
+/* ---- Fixed ambient tint (ScrollAmbient): one layer per tint, crossfaded by opacity ---- */
+.ambient-layer { position: absolute; inset: 0; opacity: 0; will-change: opacity; }
+.ambient-layer[data-tint="primary"] {
+  background: radial-gradient(60% 55% at 20% 35%, color-mix(in oklab, var(--primary) 14%, transparent), transparent 70%);
+}
+.ambient-layer[data-tint="accent"] {
+  background: radial-gradient(55% 55% at 80% 40%, color-mix(in oklab, var(--accent) 11%, transparent), transparent 70%);
+}
+.ambient-layer[data-tint="muted"] {
+  background: radial-gradient(70% 60% at 50% 50%, color-mix(in oklab, var(--primary) 6%, transparent), transparent 70%);
+}
+
+/* ---- Reduced motion: every CSS animation off ---- */
+@media (prefers-reduced-motion: reduce) {
+  .cursor,
+  .hero-scan::after,
+  .ascii-banner--hero,
+  .ascii-banner--hero .ascii-line,
+  .backdrop-drift::before { animation: none; }
+  .wipe > * { transition: none; }
+  .marquee { mask-image: none; }
+  .marquee-track { width: auto; flex-wrap: wrap; justify-content: center; row-gap: 1.25rem; padding-inline: 1rem; animation: none; }
+  .marquee-item[aria-hidden="true"] { display: none; }
+}
