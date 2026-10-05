@@ -15,8 +15,9 @@ const STATUS = [
 const monoBtn = "font-mono text-xs font-semibold uppercase tracking-[0.14em]";
 
 /**
- * Centered hero: figlet "Pagga" wordmark that boots in row by row (CSS, see
- * `.ascii-banner--hero`), typed tagline, status readouts and two calls to action.
+ * Centered hero: figlet "ANSI Shadow" wordmark with a teal gradient fill that boots in
+ * row by row (CSS, see `.ascii-banner--hero`), typed tagline, status readouts and two
+ * calls to action. The nav hides its own "Get started" while this section is on screen.
  * The visible heading is the ASCII art; the sr-only h1 carries the name for assistive tech.
  */
 export function Hero() {
@@ -24,7 +25,7 @@ export function Hero() {
     <section
       id="hero"
       aria-labelledby="hero-title"
-      className="relative isolate overflow-clip bg-background"
+      className="hero-surface relative isolate overflow-clip"
     >
       <div aria-hidden className="backdrop backdrop-glow" />
       <div aria-hidden className="hero-scan absolute inset-0" />
@@ -35,10 +36,10 @@ export function Hero() {
         <h1 id="hero-title" className="sr-only">
           Reconix
         </h1>
-        <AsciiBanner text="Reconix" font="Pagga" variant="hero" dim="░" decorative />
+        <AsciiBanner text="Reconix" variant="hero" decorative />
 
         <TypedLine
-          className="max-w-3xl font-mono text-sm uppercase tracking-[0.14em] text-muted-foreground sm:text-base lg:text-lg"
+          className="max-w-3xl font-mono text-sm uppercase tracking-[0.14em] text-foreground sm:text-base lg:text-lg"
           lines={[
             "AI-planned security assessments inside an approved scope.",
             "From scope manifest to report, every step approved by you.",
@@ -54,11 +55,8 @@ export function Hero() {
         </ul>
 
         <div className="flex flex-wrap items-center justify-center gap-4 pt-2">
-          <Link href="/docs/getting-started" className={cn(buttonVariants({ size: "lg" }), monoBtn, "gap-3")}>
+          <Link href="/docs/getting-started" className={cn(buttonVariants({ size: "lg" }), monoBtn)}>
             Get started
-            <span className="rounded bg-primary-foreground/15 px-2 py-0.5 text-[0.65rem] tracking-[0.08em]">
-              free · self-hosted
-            </span>
           </Link>
           <Link
             href="/docs/architecture"

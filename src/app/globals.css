@@ -1,21 +1,22 @@
 @import "tailwindcss";
 @import "lenis/dist/lenis.css";
 
-/* Reconix design tokens: dark operator console. Blue for UI and the hero glow,
-   amber for approval gates, green for pass / LOW-risk states. */
+/* Reconix design tokens: dark operator console. Teal for UI and the hero glow,
+   amber for approval gates, green for pass / LOW-risk states. The background is
+   a deep navy rather than pure black so glows and panels have something to lift off. */
 :root {
-  --background: #070a10;
-  --foreground: #e4eaf4;
-  --card: #0c121c;
-  --card-foreground: #e4eaf4;
-  --muted: #121a28;
-  --muted-foreground: #8693a8;
-  --border: #1a2435;
-  --primary: #4c8dff;
-  --primary-foreground: #06101f;
+  --background: #0a0f17;
+  --foreground: #e8edf5;
+  --card: #0f1622;
+  --card-foreground: #e8edf5;
+  --muted: #152032;
+  --muted-foreground: #8e9bb0;
+  --border: #1e2a3c;
+  --primary: #2dd4bf;
+  --primary-foreground: #042f2a;
   --accent: #f2b544;
   --success: #39d353;
-  --ring: #4c8dff;
+  --ring: #2dd4bf;
 }
 
 @theme inline {
@@ -62,6 +63,14 @@ h1, h2, h3, h4 {
 }
 
 /* ---- Hero: operator-console CRT ---- */
+/* Opaque base (the hero is the one section that hides ScrollAmbient): a faint teal
+   lift at the top fading into the page background, so the fold is not flat black.
+   It ends on exactly --background, so there is no seam into the next section. */
+.hero-surface {
+  background:
+    radial-gradient(80% 45% at 50% 0%, color-mix(in oklab, var(--primary) 7%, transparent), transparent 70%),
+    linear-gradient(to bottom, color-mix(in oklab, var(--background) 92%, #1b3550), var(--background) 75%);
+}
 .hero-scan { pointer-events: none; overflow: hidden; }
 /* static fine scanlines */
 .hero-scan::before {
@@ -94,7 +103,17 @@ h1, h2, h3, h4 {
 @keyframes blink { to { visibility: hidden; } }
 
 /* ---- ASCII-art banners (figlet, server-rendered) ---- */
-.ascii-banner { letter-spacing: 0; white-space: pre; line-height: 1; }
+/* System monospace stack, not --font-mono: next/font only ships JetBrains Mono's
+   latin subset, which has no box-drawing / block glyphs (U+2500-259F). Those would fall
+   back to a wider font while spaces stay at 0.6em, and the columns of the art drift
+   apart. Every font here carries the full block at the same advance as a space. */
+.ascii-banner {
+  font-family: ui-monospace, "SF Mono", Menlo, "Cascadia Mono", Consolas, "DejaVu Sans Mono",
+    "Liberation Mono", "Noto Sans Mono", monospace;
+  letter-spacing: 0;
+  white-space: pre;
+  line-height: 1;
+}
 
 .ascii-banner--section {
   font-size: clamp(5px, 0.72vw, 10px);
@@ -104,30 +123,45 @@ h1, h2, h3, h4 {
 }
 @media (min-width: 1024px) { .ascii-banner--section { font-size: clamp(6px, 0.62vw, 9.5px); } }
 
-/* Hero wordmark: 28 cols x ~0.6em advance = 16.8em wide
-   -> ~314px at 360px viewports, ~970px cap on desktop. */
+/* Hero wordmark (ANSI Shadow): 54 cols x ~0.6em advance = 32.4em wide
+   -> ~310px at 375px viewports, ~620px cap on desktop.
+   Each row is filled with a left -> right teal gradient (background-clip: text, so
+   every row shows the same sweep) and the glow is a soft drop-shadow on the block:
+   text-shadow would paint over a clipped background. */
 .ascii-banner--hero {
-  font-size: clamp(1rem, 5.2vw, 3.6rem);
-  text-shadow:
-    0 0 0.12em color-mix(in oklab, var(--primary) 65%, transparent),
-    0 0 0.45em color-mix(in oklab, var(--primary) 35%, transparent),
-    0 0 1.3em color-mix(in oklab, var(--primary) 18%, transparent);
-  animation: ascii-settle 900ms ease-out 1.15s backwards;
+  font-size: clamp(6px, 2.55vw, 1.2rem);
+  --hero-glow: drop-shadow(0 0 0.4em color-mix(in oklab, var(--primary) 32%, transparent));
+  filter: brightness(1) saturate(1) var(--hero-glow);
+  animation: ascii-settle 900ms ease-out 1.3s backwards;
 }
-/* rows boot in top -> bottom, one cell per step; `backwards` releases the clip
-   once done so the glow is not cropped to the row box */
 .ascii-banner--hero .ascii-line {
-  animation: ascii-boot 420ms steps(28, end) backwards;
-  animation-delay: calc(180ms + var(--i, 0) * 280ms);
+  color: transparent;
+  background: linear-gradient(
+    90deg,
+    color-mix(in oklab, var(--primary) 55%, var(--foreground)) 0%,
+    var(--primary) 45%,
+    color-mix(in oklab, var(--primary) 75%, #38bdf8) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  /* rows boot in top -> bottom, one cell per step; `backwards` releases the clip
+     once done so the glow is not cropped to the row box */
+  animation: ascii-boot 420ms steps(54, end) backwards;
+  animation-delay: calc(180ms + var(--i, 0) * 160ms);
 }
 @keyframes ascii-boot {
   from { clip-path: inset(0 100% 0 0); opacity: 0.4; }
   to { clip-path: inset(0); opacity: 1; }
 }
 @keyframes ascii-settle {
-  from { filter: brightness(1.9) saturate(1.4); }
-  to { filter: none; }
+  from { filter: brightness(1.7) saturate(1.3) var(--hero-glow); }
+  to { filter: brightness(1) saturate(1) var(--hero-glow); }
 }
+
+/* ---- Nav CTA (NavCta): on the landing page it stays out of the way while the hero,
+   which has its own "Get started", is on screen ---- */
+.nav-cta { transition: opacity 0.25s ease, transform 0.25s ease; }
+.nav-cta[data-hidden="true"] { opacity: 0; transform: translateY(-4px); pointer-events: none; }
 
 /* ---- Showcase: dark fade over the node graph behind the text column; `--fade-dir` flips per item ---- */
 @utility showcase-fade {
@@ -139,22 +173,6 @@ h1, h2, h3, h4 {
     color-mix(in oklab, var(--background) 5%, transparent) 72%
   );
 }
-
-/* ---- Tool marquee (ToolMarquee): two copies of the list, the track slides by half its width.
-   Spacing is padding on each item (not flex gap) so both copies are exactly the same width
-   and the loop point is invisible. Hover pauses; reduced motion shows one static wrapped row. ---- */
-.marquee {
-  overflow: hidden;
-  mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
-}
-.marquee-track {
-  display: flex;
-  width: max-content;
-  animation: marquee 48s linear infinite;
-}
-.marquee-item { padding-right: 3.5rem; }
-.marquee:hover .marquee-track { animation-play-state: paused; }
-@keyframes marquee { to { transform: translateX(-50%); } }
 
 /* ---- Showcase text: the active step wipes in left -> right (like a terminal printing a line),
    one child after another; the previous step fades out in place. Driven by data-state. ---- */
@@ -176,6 +194,239 @@ h1, h2, h3, h4 {
     opacity 0.25s ease,
     clip-path 0s linear 0.25s;
 }
+
+/* ---- Integrations (sections/integrations.tsx): the stack as a layered diagram.
+   Layers are cards with a lit top edge and a corner glow on hover; the control plane
+   (data-accent) is teal-tinted, the foundation is a hatched base plate. Connectors
+   (.stack-link) are vertical lines with a pulse travelling along them (down, or up for
+   data-dir="up"), labelled in a mono pill; .stack-hlink is the horizontal AI <-> knowledge link.
+   Tool marks are soft white at rest, brand colour (or teal) + glow on hover; `--brand` is
+   set per row by ToolLogo when the vendor colour is chromatic enough to read on dark. ---- */
+.integration-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-color: var(--border);
+  background: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--card), var(--primary) 3%),
+    color-mix(in oklab, var(--card) 70%, transparent)
+  );
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.integration-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, color-mix(in oklab, var(--primary) 70%, transparent), transparent);
+  opacity: 0.35;
+  transition: opacity 0.3s ease;
+}
+.integration-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(60% 50% at 0% 0%, color-mix(in oklab, var(--primary) 10%, transparent), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.integration-card:hover {
+  border-color: color-mix(in oklab, var(--primary) 30%, var(--border));
+  box-shadow: 0 18px 40px -24px color-mix(in oklab, var(--primary) 40%, transparent);
+}
+.integration-card:hover::before,
+.integration-card:hover::after { opacity: 1; }
+
+.integration-card[data-accent] {
+  border-color: color-mix(in oklab, var(--primary) 35%, var(--border));
+  background:
+    radial-gradient(70% 120% at 50% 0%, color-mix(in oklab, var(--primary) 9%, transparent), transparent 70%),
+    linear-gradient(180deg, color-mix(in oklab, var(--card), var(--primary) 5%), color-mix(in oklab, var(--card) 80%, transparent));
+  box-shadow: 0 0 40px -18px color-mix(in oklab, var(--primary) 45%, transparent);
+}
+.integration-card[data-accent]::before { opacity: 0.8; }
+.stack-foundation {
+  border-style: dashed;
+  background:
+    repeating-linear-gradient(135deg, color-mix(in oklab, var(--foreground) 3%, transparent) 0 1px, transparent 1px 12px),
+    color-mix(in oklab, var(--card) 70%, transparent);
+}
+
+.stack-link {
+  position: relative;
+  height: 3.5rem;
+}
+/* the line */
+.stack-link::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(
+    to bottom,
+    color-mix(in oklab, var(--primary) 55%, transparent),
+    color-mix(in oklab, var(--primary) 20%, transparent)
+  );
+}
+/* the pulse */
+.stack-link::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 5px;
+  height: 5px;
+  margin-left: -2px;
+  border-radius: 999px;
+  background: var(--primary);
+  box-shadow: 0 0 10px 1px color-mix(in oklab, var(--primary) 70%, transparent);
+  animation: stack-flow 2.6s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+.stack-link[data-dir="up"]::after { animation-direction: reverse; }
+@keyframes stack-flow {
+  0% { top: 0; opacity: 0; }
+  15%, 85% { opacity: 1; }
+  100% { top: calc(100% - 5px); opacity: 0; }
+}
+.stack-label {
+  position: absolute;
+  left: calc(50% + 0.75rem);
+  top: 50%;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--background);
+  padding: 0.125rem 0.625rem;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+/* stacked layout: one centred connector per gap, so the pill sits on the line */
+@media (max-width: 1023.98px) {
+  .stack-label { left: 50%; transform: translate(-50%, -50%); }
+}
+.stack-link[data-dir="up"] .stack-label::before { content: "\2191  "; color: var(--primary); }
+.stack-link[data-dir="down"] .stack-label::before { content: "\2193  "; color: var(--primary); }
+
+/* AI <-> knowledge: a short horizontal link across the grid gap (1.25rem) */
+.stack-hlink {
+  position: absolute;
+  top: 50%;
+  right: -1.25rem;
+  width: 1.25rem;
+  height: 1px;
+  background: color-mix(in oklab, var(--primary) 55%, transparent);
+  z-index: 1;
+}
+.stack-hlink::before,
+.stack-hlink::after {
+  content: "";
+  position: absolute;
+  top: -2px;
+  width: 5px;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--primary);
+  box-shadow: 0 0 8px color-mix(in oklab, var(--primary) 70%, transparent);
+}
+.stack-hlink::before { left: -2px; }
+.stack-hlink::after { right: -2px; }
+
+.tool-row { transition: background-color 0.2s ease; }
+.tool-row:hover { background: color-mix(in oklab, var(--foreground) 3%, transparent); }
+.tool-mark {
+  color: color-mix(in oklab, var(--foreground) 85%, transparent);
+  border-color: var(--border);
+  background: color-mix(in oklab, var(--background) 70%, transparent);
+  transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+.tool-row:hover .tool-mark {
+  color: var(--brand, var(--primary));
+  border-color: color-mix(in oklab, var(--brand, var(--primary)) 45%, transparent);
+  background: color-mix(in oklab, var(--brand, var(--primary)) 9%, var(--background));
+  box-shadow: 0 0 24px -6px color-mix(in oklab, var(--brand, var(--primary)) 55%, transparent);
+}
+
+/* ---- Workflow stepper (WorkflowStepper): step cards + connectors, driven by data-state
+   (active / done / todo) so the colours live here, not in conditional class strings.
+   The approval gate (data-gate) is amber in every state. ---- */
+.wf-rail { scrollbar-width: none; }
+.wf-rail::-webkit-scrollbar { display: none; }
+@media (max-width: 1023.98px) {
+  .wf-rail { mask-image: linear-gradient(to right, transparent, #000 1rem, #000 calc(100% - 1rem), transparent); }
+}
+.wf-step {
+  --wf-c: var(--primary);
+  border-color: var(--border);
+  background: color-mix(in oklab, var(--card) 80%, transparent);
+  transition: border-color 0.25s ease, background-color 0.25s ease, box-shadow 0.25s ease;
+}
+.wf-step[data-gate] { --wf-c: var(--accent); border-color: color-mix(in oklab, var(--accent) 45%, transparent); }
+.wf-num { background: var(--muted); color: var(--muted-foreground); transition: background-color 0.25s ease, color 0.25s ease; }
+.wf-icon, .wf-label { color: var(--muted-foreground); transition: color 0.25s ease; }
+.wf-step[data-gate] .wf-num { background: color-mix(in oklab, var(--accent) 18%, transparent); color: var(--accent); }
+.wf-step:hover { border-color: color-mix(in oklab, var(--wf-c) 45%, transparent); }
+/* done: brighter label, tinted check */
+.wf-step[data-state="done"] .wf-num { background: color-mix(in oklab, var(--wf-c) 16%, transparent); color: var(--wf-c); }
+.wf-step[data-state="done"] .wf-label { color: var(--foreground); }
+/* active: border + soft glow, filled number */
+.wf-step[data-state="active"] {
+  border-color: color-mix(in oklab, var(--wf-c) 75%, transparent);
+  background: color-mix(in oklab, var(--wf-c) 7%, var(--card));
+  box-shadow:
+    0 0 0 1px color-mix(in oklab, var(--wf-c) 30%, transparent),
+    0 0 28px -6px color-mix(in oklab, var(--wf-c) 45%, transparent);
+}
+.wf-step[data-state="active"] .wf-num { background: var(--wf-c); color: var(--primary-foreground); }
+.wf-step[data-state="active"] .wf-icon { color: var(--wf-c); }
+.wf-step[data-state="active"] .wf-label { color: var(--foreground); }
+
+/* connector: grey track, teal fill that grows left -> right, chevron at the end */
+.wf-link {
+  --wf-link-c: var(--border);
+  position: relative;
+  flex: 0 0 1.5rem;
+  min-width: 1.5rem;
+  height: 1px;
+  margin-inline: 0.375rem;
+  background: var(--border);
+}
+.wf-link::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--primary);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1), opacity 0.3s ease;
+}
+.wf-link::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  border-top: 1px solid var(--wf-link-c);
+  border-right: 1px solid var(--wf-link-c);
+  transform: translateY(-50%) rotate(45deg);
+  transition: border-color 0.3s ease;
+}
+.wf-link[data-state="done"] { --wf-link-c: color-mix(in oklab, var(--primary) 50%, transparent); }
+.wf-link[data-state="done"]::before { transform: scaleX(1); opacity: 0.45; }
+.wf-link[data-state="active"] { --wf-link-c: var(--primary); }
+.wf-link[data-state="active"]::before {
+  transform: scaleX(1);
+  box-shadow: 0 0 8px color-mix(in oklab, var(--primary) 70%, transparent);
+}
+@media (min-width: 1024px) { .wf-link { flex: 0 0 1.25rem; min-width: 1.25rem; margin-inline: 0.25rem; } }
 
 /* ---- Section backdrops (SectionShell `backdrop`) ----
    ::before = tiled pattern (masked), ::after = radial glow. Colours are
@@ -212,21 +463,24 @@ h1, h2, h3, h4 {
   --bd-mask: radial-gradient(ellipse 90% 80% at 80% 30%, #000 20%, transparent 100%);
   --bd-glow: radial-gradient(45% 55% at 85% 25%, color-mix(in oklab, var(--accent) 10%, transparent), transparent 70%);
 }
-/* Knowledge: horizontal scanlines, blue glow bottom-left */
+/* Knowledge: horizontal scanlines, teal glow bottom-left */
 .backdrop-scanlines {
   --bd-size: 100% 4px;
   --bd-pattern: linear-gradient(to bottom, color-mix(in oklab, var(--foreground) 5%, transparent) 1px, transparent 1px);
   --bd-mask: linear-gradient(to right, #000 60%, transparent);
   --bd-glow: radial-gradient(50% 60% at 20% 75%, color-mix(in oklab, var(--primary) 10%, transparent), transparent 70%);
 }
-/* Hero + CTA: blue glow over a 40px pixel grid (the page's bookends) */
+/* Hero + CTA: soft teal glow over a 40px pixel grid (the page's bookends).
+   Two glows: a broad, faint wash for depth and a tighter core behind the content. */
 .backdrop-glow {
   --bd-size: 40px 40px;
   --bd-pattern:
-    linear-gradient(to right, color-mix(in oklab, var(--foreground) 3.5%, transparent) 1px, transparent 1px),
-    linear-gradient(to bottom, color-mix(in oklab, var(--foreground) 3.5%, transparent) 1px, transparent 1px);
-  --bd-mask: radial-gradient(ellipse 70% 80% at 50% 50%, #000 30%, transparent 100%);
-  --bd-glow: radial-gradient(45% 60% at 50% 55%, color-mix(in oklab, var(--primary) 18%, transparent), transparent 70%);
+    linear-gradient(to right, color-mix(in oklab, var(--foreground) 4%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklab, var(--foreground) 4%, transparent) 1px, transparent 1px);
+  --bd-mask: radial-gradient(ellipse 65% 75% at 50% 50%, #000 25%, transparent 100%);
+  --bd-glow:
+    radial-gradient(35% 40% at 50% 50%, color-mix(in oklab, var(--primary) 13%, transparent), transparent 70%),
+    radial-gradient(70% 70% at 50% 55%, color-mix(in oklab, var(--primary) 6%, transparent), transparent 75%);
 }
 /* Opt-in slow drift of the tile layer (transform only; the tile must divide 48px:
    grid 48, dots 24, scanlines 4 — not hazard/glow). */
@@ -252,8 +506,11 @@ h1, h2, h3, h4 {
   .ascii-banner--hero,
   .ascii-banner--hero .ascii-line,
   .backdrop-drift::before { animation: none; }
-  .wipe > * { transition: none; }
-  .marquee { mask-image: none; }
-  .marquee-track { width: auto; flex-wrap: wrap; justify-content: center; row-gap: 1.25rem; padding-inline: 1rem; animation: none; }
-  .marquee-item[aria-hidden="true"] { display: none; }
+  .wipe > *,
+  .nav-cta,
+  .wf-step, .wf-num, .wf-icon, .wf-label,
+  .wf-link::before, .wf-link::after,
+  .integration-card, .integration-card::before, .integration-card::after,
+  .tool-row, .tool-mark { transition: none; }
+  .stack-link::after { animation: none; opacity: 0; }
 }

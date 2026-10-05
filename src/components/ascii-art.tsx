@@ -6,7 +6,7 @@ export type AsciiArtProps = {
   lines: string[];
   /** Accessible name. Omit to mark the art decorative (aria-hidden). */
   label?: string;
-  /** `section` = small blue banner under an eyebrow; `hero` = full-width wordmark. */
+  /** `section` = small teal banner under an eyebrow; `hero` = full-width wordmark. */
   variant?: "section" | "hero";
   tone?: "primary" | "foreground";
   /** A filler character (e.g. "░") whose runs are rendered dimmed, like unlit pixels. */

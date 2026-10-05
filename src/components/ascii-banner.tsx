@@ -5,7 +5,7 @@ type Fonts = figlet.Fonts;
 
 export type AsciiBannerProps = Omit<AsciiArtProps, "lines" | "label"> & {
   text: string;
-  /** Any font shipped in node_modules/figlet/fonts. Sections use "ANSI Shadow"; the hero uses "Pagga". */
+  /** Any font shipped in node_modules/figlet/fonts. Sections and the hero use "ANSI Shadow". */
   font?: Fonts;
   /** true = visual only (aria-hidden); the caller must provide the heading text itself. */
   decorative?: boolean;
@@ -17,7 +17,7 @@ export function asciiLines(text: string, font: Fonts = "ANSI Shadow"): string[] 
     .textSync(text.toUpperCase(), { font })
     .replace(/\s+$/, "") // ANSI Shadow ends with a blank row
     .split("\n")
-    .map((l) => l.trimEnd()); // U+2591 is not whitespace, so Pagga rows keep all 28 columns
+    .map((l) => l.trimEnd());
 }
 
 /**

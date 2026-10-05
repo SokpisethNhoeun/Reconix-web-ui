@@ -57,14 +57,14 @@ const HUB_EDGES = [
 ];
 
 const COLORS = {
-  edge: "rgba(76, 141, 255, 0.22)",
-  edgeLit: "rgba(76, 141, 255, 0.7)",
+  edge: "rgba(45, 212, 191, 0.22)",
+  edgeLit: "rgba(45, 212, 191, 0.7)",
   hub: "#f2b544",
-  leaf: "#4c8dff",
+  leaf: "#2dd4bf",
   gate: "#f2b544",
-  text: "rgba(228, 234, 244, 0.92)",
-  sub: "rgba(134, 147, 168, 0.9)",
-  pulse: "#9cc2ff",
+  text: "rgba(232, 237, 245, 0.92)",
+  sub: "rgba(142, 155, 176, 0.9)",
+  pulse: "#99f6e4",
 };
 
 export function mountNodeGraph(canvas, opts = {}) {
@@ -173,7 +173,7 @@ export function mountNodeGraph(canvas, opts = {}) {
       } else {
         const gate = n.kind === "gate";
         ctx.strokeStyle = gate ? COLORS.gate : COLORS.leaf; ctx.lineWidth = 1;
-        ctx.fillStyle = gate ? "rgba(242,181,68,0.12)" : "rgba(76,141,255,0.10)";
+        ctx.fillStyle = gate ? "rgba(242,181,68,0.12)" : "rgba(45,212,191,0.10)";
         roundRect(ctx, x - 11, y - 6, 22, 12, 3); ctx.fill(); ctx.stroke();
         if (gate) { ctx.fillStyle = COLORS.gate; ctx.beginPath(); ctx.arc(x, y, 2, 0, Math.PI * 2); ctx.fill(); }
         if (!small || on) {

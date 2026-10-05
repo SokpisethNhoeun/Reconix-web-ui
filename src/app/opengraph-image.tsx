@@ -11,12 +11,12 @@ export const contentType = "image/png";
  * repeated here as literals: keep it in step with the tokens in globals.css.
  */
 const palette = {
-  background: "#070a10",
-  foreground: "#e4eaf4",
-  muted: "#8693a8",
-  border: "#1a2435",
-  primary: "#4c8dff",
-  card: "#0c121c",
+  background: "#0a0f17",
+  foreground: "#e8edf5",
+  muted: "#8e9bb0",
+  border: "#1e2a3c",
+  primary: "#2dd4bf",
+  card: "#0f1622",
 };
 
 const status = [
@@ -37,7 +37,7 @@ export default function OpenGraphImage() {
           justifyContent: "center",
           padding: "72px 88px",
           background: palette.background,
-          backgroundImage: `radial-gradient(circle at 28% 45%, rgba(76, 141, 255, 0.28), transparent 55%)`,
+          backgroundImage: `radial-gradient(circle at 28% 45%, rgba(45, 212, 191, 0.24), transparent 55%)`,
           color: palette.foreground,
           fontFamily: "sans-serif",
         }}

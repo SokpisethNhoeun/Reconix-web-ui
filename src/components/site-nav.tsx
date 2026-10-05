@@ -1,6 +1,5 @@
 import Link from "next/link";
-import { buttonVariants } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { NavCta } from "@/components/nav-cta";
 
 const links = [
   { href: "/#showcase", label: "Features" },
@@ -25,12 +24,7 @@ export function SiteNav() {
             </Link>
           ))}
         </nav>
-        <Link
-          href="/docs/getting-started"
-          className={cn(buttonVariants({ size: "sm" }), "font-mono text-xs uppercase tracking-[0.14em]")}
-        >
-          Get started
-        </Link>
+        <NavCta />
       </div>
     </header>
   );
