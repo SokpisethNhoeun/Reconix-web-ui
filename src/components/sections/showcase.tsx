@@ -60,7 +60,10 @@ export function Showcase({ banners }: { banners: React.ReactNode[] }) {
       className="relative border-t border-border"
       style={{ height: `${(n + SHOWCASE_TAIL) * 100}vh` }}
     >
-      <div className="sticky top-0 h-screen overflow-hidden">
+      <div className="sticky top-0 isolate h-screen overflow-hidden">
+        {/* same backdrop as the hero (glow over a pixel grid + scanlines), behind the map */}
+        <div aria-hidden className="backdrop backdrop-glow" />
+        <div aria-hidden className="hero-scan absolute inset-0" />
         {/* graph layer: one map, the camera travels across it */}
         <div className="absolute inset-0" data-graph aria-hidden>
           {/* no focus during the pull-back, so the whole map lights up */}
@@ -68,7 +71,7 @@ export function Showcase({ banners }: { banners: React.ReactNode[] }) {
           {/* shades thin out as the camera pulls back to the whole map (--overview 0..1) */}
           <div className="absolute inset-0" style={{ opacity: "calc(1 - var(--overview, 0) * 0.85)" }}>
             {/* phones: one even shade; lg+: a left and a right shade that crossfade with the step */}
-            <div className="absolute inset-0 bg-background/75 lg:hidden" />
+            <div className="absolute inset-0 bg-background/90 lg:hidden" />
             <div
               data-shade="left"
               className={`showcase-fade absolute inset-0 hidden transition-opacity duration-700 motion-reduce:transition-none lg:block ${flip ? "opacity-0" : "opacity-100"}`}
@@ -100,12 +103,18 @@ export function Showcase({ banners }: { banners: React.ReactNode[] }) {
                 <span className="inline-block rounded-full border border-primary/40 bg-primary/10 px-3 py-1 font-mono text-xs font-medium uppercase tracking-[0.22em] text-primary">
                   {s.eyebrow}
                 </span>
-                <div className="mt-5">{s.banner}</div>
-                <h2 className="mt-4 text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">{s.title}</h2>
-                <p className="mt-3 text-lg leading-snug text-primary/90 sm:text-xl">{s.tagline}</p>
-                <ul className="mt-6 space-y-2 font-mono text-sm leading-relaxed text-muted-foreground">
+                <div className="mt-6">{s.banner}</div>
+                <h2 className="mt-5 text-3xl font-semibold leading-tight tracking-tight sm:text-4xl">{s.title}</h2>
+                <p className="mt-4 max-w-lg text-lg leading-relaxed text-foreground/90 sm:text-xl">{s.tagline}</p>
+                <ul className="mt-7 max-w-lg space-y-3 text-[15px] leading-snug text-foreground/80 sm:text-base">
                   {s.points.map((p) => (
-                    <li key={p} className="flex gap-2"><span className="text-primary">•</span>{p}</li>
+                    <li key={p} className="flex items-start gap-3">
+                      {/* one line tall, so the dash is centred on the first line however the item wraps */}
+                      <span aria-hidden className="flex h-[1.375em] shrink-0 items-center">
+                        <span className="block h-0.5 w-3.5 rounded-full bg-primary/80" />
+                      </span>
+                      {p}
+                    </li>
                   ))}
                 </ul>
               </div>
