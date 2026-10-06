@@ -1,3 +1,4 @@
+import { DocsMoreLink } from "@/components/docs-more-link";
 import { Reveal } from "@/components/reveal";
 import { AsciiBanner } from "@/components/ascii-banner";
 import { SectionShell } from "@/components/section-shell";
@@ -27,6 +28,7 @@ export function Guardrails() {
         <h2 data-reveal className="text-3xl font-semibold tracking-tight sm:text-4xl">
           Checks that run before, during and after every action.
         </h2>
+        <div data-reveal><DocsMoreLink href="/docs/guardrails" /></div>
       </Reveal>
       <div className="grid gap-10 lg:grid-cols-[1.5fr_1fr]">
         <Reveal className="grid gap-x-8 gap-y-7 sm:grid-cols-2">

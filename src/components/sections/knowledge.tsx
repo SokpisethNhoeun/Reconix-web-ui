@@ -1,3 +1,4 @@
+import { DocsMoreLink } from "@/components/docs-more-link";
 import { Reveal } from "@/components/reveal";
 import { AsciiBanner } from "@/components/ascii-banner";
 import { SectionShell } from "@/components/section-shell";
@@ -22,9 +23,9 @@ export function Knowledge() {
         </h2>
         <p data-reveal className="text-base leading-relaxed text-muted-foreground sm:text-lg">
           Before the model explains an impact or recommends a fix, Reconix retrieves matching
-          knowledge with hybrid search. Missing facts are filled from the knowledge base or the NVD
-          API, or clearly marked unknown.
+          knowledge with hybrid search. Missing facts are clearly marked unknown.
         </p>
+        <div data-reveal><DocsMoreLink href="/docs/guardrails/llm-data-handling" /></div>
       </Reveal>
       <Reveal className="mb-10 flex flex-wrap items-center gap-2 font-mono text-xs sm:text-sm">
         {pipeline.map((p, i) => (

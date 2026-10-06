@@ -1,3 +1,4 @@
+import { DocsMoreLink } from "@/components/docs-more-link";
 import { Reveal } from "@/components/reveal";
 import { AsciiBanner } from "@/components/ascii-banner";
 import { SectionShell } from "@/components/section-shell";
@@ -19,6 +20,7 @@ export function Categories() {
         <h2 data-reveal className="text-3xl font-semibold tracking-tight sm:text-4xl">
           Four templates cover the targets teams assess most.
         </h2>
+        <div data-reveal><DocsMoreLink href="/docs/assessments" /></div>
       </Reveal>
       <Reveal className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
         {categories.map((c) => (

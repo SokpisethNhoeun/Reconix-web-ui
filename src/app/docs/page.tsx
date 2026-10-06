@@ -1,38 +1,72 @@
 import Link from "next/link";
-import { DocsLayout, DocSection } from "@/components/docs-layout";
+import { ArrowRight, Rocket } from "lucide-react";
+import { DocGroupCards } from "@/components/docs-cards";
+import { Callout, DocLink, DocsLayout, DocSection } from "@/components/docs-layout";
+import { DOCS_NAV } from "@/lib/docs-nav";
 
 export const metadata = { title: "Documentation · Reconix" };
 
+const TEMPLATES = [
+  { name: "Network", input: "IP, hostname or subnet", href: "/docs/assessments/network" },
+  { name: "API", input: "Endpoints and schema", href: "/docs/assessments/apis" },
+  { name: "Source Code", input: "Repository or directory", href: "/docs/assessments/source-code" },
+  { name: "Web URL", input: "Application URL", href: "/docs/assessments/web-applications" },
+];
+
 export default function DocsHome() {
   return (
-    <DocsLayout title="Documentation" lede="What Reconix is, what it expects from you, and where to go next.">
+    <DocsLayout href="/docs" title="Documentation" lede="What Reconix is, what it expects from you, and where to go next.">
+      <Link
+        href="/docs/getting-started/first-assessment"
+        className="group flex items-center gap-4 rounded-2xl border border-primary/40 bg-primary/5 p-5 transition-colors hover:border-primary"
+      >
+        <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-primary text-primary-foreground">
+          <Rocket className="size-5" aria-hidden />
+        </span>
+        <span className="min-w-0 flex-1">
+          <span className="block font-mono text-[11px] uppercase tracking-[0.18em] text-primary">Start here</span>
+          <span className="block font-display text-lg font-semibold text-foreground">Run your first assessment</span>
+          <span className="block text-sm text-muted-foreground">Requirements, installation and a first approved scope.</span>
+        </span>
+        <ArrowRight className="size-5 shrink-0 text-primary transition-transform group-hover:translate-x-1" aria-hidden />
+      </Link>
+
       <DocSection title="What Reconix does">
         <p>
-          Reconix is an AI-powered terminal assistant for authorized security assessments. It plans
-          tasks, uses approved tools within a scope you sign off on, analyzes the results, retrieves
-          trusted security knowledge, and suggests next steps.
+          Reconix is an AI-powered terminal assistant for authorized security assessments. It plans tasks, uses approved
+          tools within a scope you sign off on, analyzes the results, retrieves trusted security knowledge, and suggests next
+          steps.
         </p>
-        <p>It is built for two kinds of users: developers checking their own code and services, and security teams running assessments for others.</p>
-      </DocSection>
-      <DocSection title="Authorized use">
         <p>
-          Only assess targets you are authorized to test. Reconix enforces the scope you approve, but
-          the authorization itself comes from you or your organization. Keep written permission for
-          every target.
+          It is built for two kinds of users: developers checking their own code and services, and security teams running
+          assessments for others.
         </p>
+        <Callout variant="warning" title="Authorized use only">
+          Only assess targets you are authorized to test. See <DocLink href="/docs/guardrails/authorized-use">Authorized use</DocLink>.
+        </Callout>
       </DocSection>
-      <DocSection title="Guides">
-        <ul>
-          <li><Link href="/docs/getting-started" className="text-primary underline-offset-4 hover:underline">Getting started</Link>: requirements, installation, configuration and your first assessment.</li>
-          <li><Link href="/docs/architecture" className="text-primary underline-offset-4 hover:underline">Architecture</Link>: how the terminal, backend, AI service and tool service fit together.</li>
+
+      <DocSection title="Supported assessments">
+        <p>Four templates cover the targets teams assess most:</p>
+        <ul className="grid gap-3 sm:grid-cols-2 !ml-0 [&>li]:!ml-0 [&>li]:!list-none">
+          {TEMPLATES.map((t) => (
+            <li key={t.name}>
+              <Link
+                href={t.href}
+                className="block rounded-xl border border-border bg-card/60 p-4 transition-colors hover:border-primary/50"
+              >
+                <span className="block font-display font-semibold text-foreground">{t.name}</span>
+                <span className="mt-0.5 block font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
+                  {t.input}
+                </span>
+              </Link>
+            </li>
+          ))}
         </ul>
       </DocSection>
-      <DocSection title="Limitations">
-        <ul>
-          <li>Findings generated with AI can be wrong. Low-confidence classifications are marked NEEDS_REVIEW for a person to check.</li>
-          <li>Severity is never guessed. Without a scanner rating or a CVSS score, a finding is marked UNKNOWN.</li>
-          <li>Reconix supports predefined tasks. Requests outside those tasks, or outside the approved scope, are refused.</li>
-        </ul>
+
+      <DocSection title="Browse the docs">
+        <DocGroupCards groups={DOCS_NAV.filter((g) => g.id !== "overview")} />
       </DocSection>
     </DocsLayout>
   );
