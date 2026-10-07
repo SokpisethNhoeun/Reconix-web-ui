@@ -14,7 +14,7 @@ const components = [
 
 export default function Architecture() {
   return (
-    <DocsLayout title="Architecture" lede="How the terminal, backend, AI service and tool service work together, and where the checks happen.">
+    <DocsLayout href="/docs/architecture" lede="How the terminal, backend, AI service and tool service work together, and where the checks happen.">
       <DocSection title="Request path">
         <p>A request travels from the Terminal to the Backend, then to the AI Service and the LLM. The answer returns along the same path. Tool runs go through the Backend&apos;s checks before they reach the Tool Service.</p>
         <div className="flex flex-wrap items-center gap-2 font-mono text-xs sm:text-sm">

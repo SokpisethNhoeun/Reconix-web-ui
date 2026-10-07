@@ -1,3 +1,4 @@
+import { DocsMoreLink } from "@/components/docs-more-link";
 import { Reveal } from "@/components/reveal";
 import { AsciiBanner } from "@/components/ascii-banner";
 import { SectionShell } from "@/components/section-shell";
@@ -21,6 +22,7 @@ export function Workflow() {
           Selecting a template never authorizes testing on its own. The approved Scope Manifest is
           what every later check is measured against.
         </p>
+        <div data-reveal><DocsMoreLink href="/docs/assessments/workflow" /></div>
       </Reveal>
       <Reveal stagger={0.12}>
         <WorkflowStepper />

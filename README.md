@@ -20,7 +20,7 @@ SITE_URL=https://your-domain.example docker compose up -d --build
 ## Where things are
 
 - `src/app/page.tsx`: the landing page, assembled from `src/components/sections/`
-- `src/app/docs/`: documentation pages (overview, getting started, architecture)
+- `src/app/docs/`: documentation routes; structure in `src/lib/docs-nav.ts` (`DOCS_NAV`), page content in `src/content/docs/`
 - `src/components/ui/`: shadcn-style Button, Card and Badge
 - `src/components/reveal.tsx`: GSAP ScrollTrigger reveal animation
 - `src/components/smooth-scroll.tsx`: Lenis smooth scrolling on native scroll, wired into GSAP ScrollTrigger
