@@ -113,7 +113,7 @@ title: "Approve the scope",
 body: "Review the final Scope Manifest and explicitly approve it before any testing begins.",
 
 detail: [
-  "Every target, tool, test type, and restriction is checked against the approved scope",
+  "Every target, tool, and restriction is checked against the approved scope",
   "No security tool can start until explicit approval is given",
   "Changes to the scope require a new review and approval",
   "Approval is recorded in the audit trail for accountability",
@@ -130,15 +130,19 @@ detail: [
   },
   {
     id: "execution",
-    label: "Execution",
-    icon: Play,
-    title: "Validate and run actions",
-    body: "Each proposed action passes input, scope, command, risk and limit checks before an approved tool runs it.",
-    detail: [
-      "Checks run on every action, not once per assessment",
-      "Approved tools run in the tool service, with sensitive output masked",
-    ],
-    note: "Higher-risk actions pause for your approval again.",
+label: "Execution",
+icon: Play,
+title: "Validate and run actions",
+body: "Every proposed action is validated against inputs, scope, command rules, risk level, and execution limits before an approved tool can run.",
+
+detail: [
+  "Validation happens for every action, not just once per assessment",
+  "Only approved tools and permitted commands can execute",
+  "Out-of-scope or invalid actions are blocked before execution",
+  "Execution results and failures are recorded in the audit",
+],
+
+note: "Higher-risk actions pause and require explicit approval before continuing.",
     preview: {
       title: "reconix · checks",
       lines: [
@@ -151,16 +155,18 @@ detail: [
     },
   },
   {
-    id: "findings",
-    label: "Findings",
-    icon: ScanSearch,
-    title: "Analyze findings",
-    body: "Results from different tools are classified, correlated, rated and explained, with evidence attached and secrets masked.",
-    detail: [
-      "Results from different tools are correlated and rated",
-      "Impact and remediation are explained with OWASP, CWE and CVE/NVD knowledge",
-      "Evidence is attached, secrets are masked",
-    ],
+   id: "findings",
+label: "Findings",
+icon: ScanSearch,
+title: "Analyze findings",
+body: "Tool results are classified, correlated, prioritized, and explained with supporting evidence and trusted security knowledge.",
+
+detail: [
+  "Related results from multiple tools are correlated into consistent findings",
+  "Severity and confidence are derived from scanner data, CVSS, and defined policy rules",
+  "Impact and remediation are enriched with OWASP, CWE, CVE/NVD, and internal knowledge",
+  "Uncertain findings are flagged for human review instead of being silently accepted",
+],
     preview: {
       title: "finding F-003",
       lines: [
@@ -172,16 +178,20 @@ detail: [
     },
   },
   {
-    id: "report",
-    label: "Report",
-    icon: FileOutput,
-    title: "Generate the report",
-    body: "Export a report with scope, findings, evidence, limitations and recommended fixes. Review it in the local viewer.",
-    detail: [
-      "The report includes the approved scope it was measured against",
-      "The local viewer is read-only: findings, evidence, audit log and reports",
-    ],
-    preview: {
+  id: "report",
+  label: "Report",
+  icon: FileOutput,
+  title: "Generate the report",
+  body: "Create a review-ready security report with the approved scope, validated findings, supporting evidence, limitations, and recommended remediation.",
+
+  detail: [
+    "Every report includes the approved scope and assessment boundaries",
+    "Findings include severity, evidence, validation status, impact, and remediation",
+    "Known limitations and unresolved items are clearly documented",
+    "The local viewer provides access to findings, evidence, audit history, and generated reports",
+    "Reports can be exported for handoff, review, or compliance documentation",
+  ],
+   preview: {
       title: "report.pdf",
       lines: [
         { text: "1  Scope", tone: "foreground" },
