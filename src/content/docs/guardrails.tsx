@@ -20,7 +20,10 @@ export const guardrails: GroupContent = {
           <p>Developers checking their own code and services, and security teams running assessments for others.</p>
         </DocSection>
         <DocSection title="What Reconix refuses">
-          <p>Reconix supports predefined tasks. Requests outside those tasks, or outside the approved scope, are refused.</p>
+          <p>
+            Requests outside its predefined tasks or the approved scope. See{" "}
+            <DocLink href="/docs/guardrails/limitations">Limitations</DocLink>.
+          </p>
         </DocSection>
       </>
     ),
@@ -47,12 +50,9 @@ export const guardrails: GroupContent = {
           </p>
         </DocSection>
         <DocSection title="Where the checks run">
-          <ul>
-            <li>Scope and command validation happen in the backend before any tool request is forwarded.</li>
-            <li>Output masking runs before results are displayed, stored or written to a report.</li>
-          </ul>
           <p>
-            See <DocLink href="/docs/architecture">Architecture</DocLink>.
+            In the backend, before any tool request is forwarded. See{" "}
+            <DocLink href="/docs/architecture">Architecture</DocLink> for the full path.
           </p>
         </DocSection>
       </>
@@ -69,18 +69,11 @@ export const guardrails: GroupContent = {
           </p>
         </DocSection>
         <DocSection title="Action approval">
-          <p>Every action is classified by the Risk Policy Table:</p>
-          <ul className="!ml-0 space-y-2 [&>li]:!ml-0 [&>li]:!list-none">
-            <li className="flex items-center gap-3">
-              <Badge variant="success">LOW</Badge> Runs automatically after checks pass.
-            </li>
-            <li className="flex items-center gap-3">
-              <Badge variant="accent">MEDIUM</Badge> Needs operator approval.
-            </li>
-            <li className="flex items-center gap-3">
-              <Badge variant="accent">HIGH</Badge> Needs explicit, clear approval.
-            </li>
-          </ul>
+          <p>
+            Every action is classified by the Risk Policy Table. <Badge variant="success">LOW</Badge> runs automatically;{" "}
+            <Badge variant="accent">MEDIUM</Badge> and <Badge variant="accent">HIGH</Badge> wait for your approval. See{" "}
+            <DocLink href="/docs/configuration/policies">Policies</DocLink> for the table.
+          </p>
           <p>The AI may suggest a risk level, but the backend decides. You can stop an assessment at any time.</p>
         </DocSection>
         <DocSection title="Audit">
@@ -114,7 +107,7 @@ export const guardrails: GroupContent = {
         <DocSection title="Your own keys">
           <p>
             Service keys such as <Mono>NVD_API_KEY</Mono> live in <Mono>.env</Mono>. See{" "}
-            <DocLink href="/docs/configuration/credentials">Credentials</DocLink>.
+            <DocLink href="/docs/getting-started/configuration">Configuration</DocLink>.
           </p>
         </DocSection>
       </>
@@ -140,7 +133,10 @@ export const guardrails: GroupContent = {
           </Callout>
         </DocSection>
         <DocSection title="Untrusted content">
-          <p>Web pages, tool output, retrieved documents and uploaded files are treated as data, never as instructions.</p>
+          <p>
+            Never treated as instructions. See{" "}
+            <DocLink href="/docs/guardrails/scope-and-safety">Scope &amp; safety</DocLink>.
+          </p>
         </DocSection>
         <DocSection title="Grounded answers">
           <ul>
@@ -167,6 +163,9 @@ export const guardrails: GroupContent = {
             </li>
             <li>Reconix supports predefined tasks. Requests outside those tasks, or outside the approved scope, are refused.</li>
           </ul>
+          <p>
+            More on severity and confidence in <DocLink href="/docs/reference/findings">Findings</DocLink>.
+          </p>
         </DocSection>
       </>
     ),

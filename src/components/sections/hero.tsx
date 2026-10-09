@@ -59,7 +59,7 @@ export function Hero() {
             Get started
           </Link>
           <Link
-            href="/docs/architecture"
+            href="/docs"
             className={cn(
               buttonVariants({ variant: "outline", size: "lg" }),
               monoBtn,

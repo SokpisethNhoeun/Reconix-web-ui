@@ -1,4 +1,4 @@
-import { LayoutGrid, Network, Puzzle, Route, ShieldCheck, Sparkles, Target, type LucideIcon } from "lucide-react";
+import { LayoutGrid, Network, Puzzle, Route, Sparkles, Target, type LucideIcon } from "lucide-react";
 import { DOCS_NAV } from "@/lib/docs-nav";
 
 export type NavItem = { label: string; href: string; description: string; icon?: LucideIcon };
@@ -47,12 +47,9 @@ export const NAV_MENUS: NavMenu[] = [
   {
     id: "guardrails",
     label: "Guardrails",
-    href: "/#guardrails",
+    href: guardrails.href,
     columns: 2,
-    items: [
-      { label: "Overview", href: "/#guardrails", description: "Checks before, during and after every action.", icon: ShieldCheck },
-      ...guardrails.pages.map((p) => ({ label: p.title, href: p.href, description: p.description })),
-    ],
+    items: guardrails.pages.map((p) => ({ label: p.title, href: p.href, description: p.description })),
   },
   {
     id: "docs",

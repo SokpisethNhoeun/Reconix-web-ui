@@ -1,33 +1,7 @@
-import { Code, DocLink, DocSection, Mono } from "@/components/docs-layout";
+import { DocLink, DocSection, Mono } from "@/components/docs-layout";
 import type { GroupContent } from "@/content/docs/types";
 
 export const reference: GroupContent = {
-  "cli-commands": {
-    lede: "Commands for the Reconix terminal client.",
-    draft: true,
-    body: (
-      <>
-        <DocSection title="Shell commands">
-          <Code>{`reconix          # start the terminal
-reconix --help   # list all commands and options
-reconix viewer   # start the read-only local viewer`}</Code>
-        </DocSection>
-        <DocSection title="In the terminal">
-          <ul>
-            <li>
-              <Mono>/template</Mono>: pick Network, API, Source Code or Web URL.
-            </li>
-            <li>Or describe the task in plain language.</li>
-          </ul>
-        </DocSection>
-        <DocSection title="Still to document">
-          <p>
-            The full command and option list. Until then, <Mono>reconix --help</Mono> is the reference.
-          </p>
-        </DocSection>
-      </>
-    ),
-  },
   findings: {
     lede: "Findings, not raw output: classified, correlated, rated and backed by evidence.",
     body: (

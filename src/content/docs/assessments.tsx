@@ -1,32 +1,15 @@
 import { Callout, DocLink, DocSection, Mono } from "@/components/docs-layout";
 import { Badge } from "@/components/ui/badge";
 import { WORKFLOW_STEPS } from "@/components/workflow-data";
-import type { DocContent, GroupContent } from "@/content/docs/types";
+import type { GroupContent } from "@/content/docs/types";
 
 /** What the landing page's Assessment categories section states for each template. */
-function templatePage(name: string, input: string, results: string): DocContent {
-  return {
-    lede: `The ${name} template: what it needs from you and what the results show.`,
-    draft: true,
-    body: (
-      <>
-        <DocSection title="Inputs">
-          <p>{input}.</p>
-          <p>
-            Pick it with <Mono>/template</Mono> in the terminal, or describe the task in plain language. Selecting a template
-            never authorizes testing on its own: the approved Scope Manifest does.
-          </p>
-        </DocSection>
-        <DocSection title="Results">
-          <p>{results}</p>
-        </DocSection>
-        <DocSection title="Still to document">
-          <p>Template-specific questions, the tools used for this category and their options.</p>
-        </DocSection>
-      </>
-    ),
-  };
-}
+const TEMPLATES = [
+  { name: "Network", input: "An IP address, hostname or subnet", results: "Assessed hosts, discovered services and related findings." },
+  { name: "API", input: "Endpoints and schema", results: "Assessed endpoints and methods, findings, masked request and response evidence." },
+  { name: "Source Code", input: "A repository or directory", results: "Affected files and lines, dependency issues, masked code evidence." },
+  { name: "Web URL", input: "An application URL", results: "Assessed URLs, findings and masked HTTP evidence." },
+];
 
 export const assessments: GroupContent = {
   workflow: {
@@ -65,24 +48,46 @@ export const assessments: GroupContent = {
       </>
     ),
   },
-  network: templatePage(
-    "Network",
-    "An IP address, hostname or subnet",
-    "Assessed hosts, discovered services and related findings."
-  ),
-  "web-applications": templatePage(
-    "Web URL",
-    "An application URL",
-    "Assessed URLs, findings and masked HTTP evidence."
-  ),
-  apis: templatePage(
-    "API",
-    "Endpoints and schema",
-    "Assessed endpoints and methods, findings, masked request and response evidence."
-  ),
-  "source-code": templatePage(
-    "Source Code",
-    "A repository or directory",
-    "Affected files and lines, dependency issues, masked code evidence."
-  ),
+  templates: {
+    lede: "Four templates cover the targets teams assess most: what each needs from you and what the results show.",
+    draft: true,
+    body: (
+      <>
+        <DocSection title="The four templates">
+          <div className="overflow-x-auto rounded-lg border border-border">
+            <table className="w-full text-left text-sm">
+              <thead className="bg-card font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+                <tr>
+                  <th className="p-3">Template</th>
+                  <th className="p-3">Input</th>
+                  <th className="p-3">Results</th>
+                </tr>
+              </thead>
+              <tbody>
+                {TEMPLATES.map((t) => (
+                  <tr key={t.name} className="border-t border-border align-top">
+                    <td className="p-3 font-medium text-foreground">{t.name}</td>
+                    <td className="p-3">{t.input}</td>
+                    <td className="p-3">{t.results}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </DocSection>
+        <DocSection title="How templates are used">
+          <ul>
+            <li>
+              Pick one with <Mono>/template</Mono> in the terminal, or describe the task in plain language.
+            </li>
+            <li>Each template asks for the inputs it needs; your answers become the draft Scope Manifest.</li>
+            <li>Selecting a template never authorizes testing on its own: the approved Scope Manifest does.</li>
+          </ul>
+        </DocSection>
+        <DocSection title="Still to document">
+          <p>Template-specific questions, the tools used for each category and their options.</p>
+        </DocSection>
+      </>
+    ),
+  },
 };

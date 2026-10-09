@@ -103,13 +103,8 @@ reconix --help`}</Code>
         </DocSection>
         <DocSection title="Review the results">
           <p>
-            Start the read-only web viewer to browse current and past assessments, filter findings by severity, read masked
-            evidence, check the audit log and export reports as PDF.
-          </p>
-          <Code>{`reconix viewer
-# open http://localhost:3000`}</Code>
-          <p>
-            More in <DocLink href="/docs/interfaces/local-viewer">Local assessment viewer</DocLink> and the full{" "}
+            Browse findings, masked evidence, the audit log and the report in the{" "}
+            <DocLink href="/docs/interfaces/local-viewer">Local assessment viewer</DocLink>. The full flow is in{" "}
             <DocLink href="/docs/assessments/workflow">Assessment workflow</DocLink>.
           </p>
         </DocSection>

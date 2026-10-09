@@ -1,4 +1,4 @@
-import { Code, DocLink, DocSection, Mono } from "@/components/docs-layout";
+import { Callout, Code, DocLink, DocSection, Mono } from "@/components/docs-layout";
 import type { GroupContent } from "@/content/docs/types";
 
 export const interfaces: GroupContent = {
@@ -14,16 +14,21 @@ export const interfaces: GroupContent = {
             <li>Shows results and generates the report.</li>
           </ul>
         </DocSection>
-        <DocSection title="Start it">
+        <DocSection title="Commands">
           <Code>{`reconix          # start the terminal
-reconix --help   # list commands`}</Code>
-          <p>
-            Inside the terminal, <Mono>/template</Mono> picks Network, API, Source Code or Web URL. See{" "}
-            <DocLink href="/docs/reference/cli-commands">CLI commands</DocLink>.
-          </p>
-        </DocSection>
-        <DocSection title="Built with">
-          <p>Python · Typer · Textual · Rich.</p>
+reconix --help   # list all commands and options
+reconix viewer   # start the read-only local viewer`}</Code>
+          <p>Inside the terminal:</p>
+          <ul>
+            <li>
+              <Mono>/template</Mono>: pick Network, API, Source Code or Web URL. See{" "}
+              <DocLink href="/docs/assessments/templates">Assessment templates</DocLink>.
+            </li>
+            <li>Or describe the task in plain language.</li>
+          </ul>
+          <Callout variant="draft">
+            The full command and option list is still to document. Until then, <Mono>reconix --help</Mono> is the reference.
+          </Callout>
         </DocSection>
       </>
     ),
@@ -44,9 +49,6 @@ reconix --help   # list commands`}</Code>
         <DocSection title="Start it">
           <Code>{`reconix viewer
 # open http://localhost:3000`}</Code>
-        </DocSection>
-        <DocSection title="Built with">
-          <p>Next.js · TypeScript. It runs under Docker Compose with the other services.</p>
         </DocSection>
       </>
     ),

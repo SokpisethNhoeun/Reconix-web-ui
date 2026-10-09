@@ -7,10 +7,10 @@ import { DOCS_NAV } from "@/lib/docs-nav";
 export const metadata = { title: "Documentation · Reconix" };
 
 const TEMPLATES = [
-  { name: "Network", input: "IP, hostname or subnet", href: "/docs/assessments/network" },
-  { name: "API", input: "Endpoints and schema", href: "/docs/assessments/apis" },
-  { name: "Source Code", input: "Repository or directory", href: "/docs/assessments/source-code" },
-  { name: "Web URL", input: "Application URL", href: "/docs/assessments/web-applications" },
+  { name: "Network", input: "IP, hostname or subnet", href: "/docs/assessments/templates" },
+  { name: "API", input: "Endpoints and schema", href: "/docs/assessments/templates" },
+  { name: "Source Code", input: "Repository or directory", href: "/docs/assessments/templates" },
+  { name: "Web URL", input: "Application URL", href: "/docs/assessments/templates" },
 ];
 
 export default function DocsHome() {

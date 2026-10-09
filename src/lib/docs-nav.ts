@@ -58,10 +58,7 @@ export const DOCS_NAV: DocGroup[] = [
     icon: ScanSearch,
     pages: [
       { title: "Assessment workflow", href: "/docs/assessments/workflow", description: "The seven steps and the approval gate." },
-      { title: "Network security", href: "/docs/assessments/network", description: "IP addresses, hostnames and subnets." },
-      { title: "Web applications", href: "/docs/assessments/web-applications", description: "Application URLs and HTTP evidence." },
-      { title: "APIs", href: "/docs/assessments/apis", description: "Endpoints, methods and schemas." },
-      { title: "Source code", href: "/docs/assessments/source-code", description: "Repositories, directories and dependencies." },
+      { title: "Assessment templates", href: "/docs/assessments/templates", description: "Network, API, Source Code and Web URL: inputs and results." },
     ],
   },
   {
@@ -79,13 +76,11 @@ export const DOCS_NAV: DocGroup[] = [
     id: "configuration",
     title: "Configuration",
     href: "/docs/configuration",
-    description: "Templates, the Scope Manifest, policies and credentials.",
+    description: "The Scope Manifest and the risk policies.",
     icon: SlidersHorizontal,
     pages: [
-      { title: "Templates", href: "/docs/configuration/templates", description: "The four assessment templates." },
       { title: "Scope Manifest", href: "/docs/configuration/scope-manifest", description: "Targets, permitted actions, exclusions and limits." },
       { title: "Policies", href: "/docs/configuration/policies", description: "The Risk Policy Table and execution limits." },
-      { title: "Credentials", href: "/docs/configuration/credentials", description: "API keys and endpoints Reconix uses." },
     ],
   },
   {
@@ -115,10 +110,9 @@ export const DOCS_NAV: DocGroup[] = [
     id: "reference",
     title: "Reference",
     href: "/docs/reference",
-    description: "Commands, the findings format and reports.",
+    description: "The findings format and reports.",
     icon: BookMarked,
     pages: [
-      { title: "CLI commands", href: "/docs/reference/cli-commands", description: "Terminal commands and slash commands." },
       { title: "Findings", href: "/docs/reference/findings", description: "Severity, confidence and evidence." },
       { title: "Reports", href: "/docs/reference/reports", description: "What a report contains and how to export it." },
     ],
