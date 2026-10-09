@@ -83,8 +83,9 @@ export function SiteFooter() {
             {SITE_NAME_MEANING ?? SITE_TAGLINE}
           </p>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-            An AI-powered terminal assistant for authorized security assessments. Built as an HRD final project by Group 2,
-            Cybersecurity track.
+           AI-powered security assessments from one terminal.
+Every action stays inside approved scope and policy.
+Plan, approve, execute, analyze, and report with confidence.
           </p>
           <ul className="mt-6 flex flex-wrap gap-2">
             <li>
