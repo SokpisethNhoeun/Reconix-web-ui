@@ -31,7 +31,7 @@ export function Hero() {
       <div aria-hidden className="hero-scan absolute inset-0" />
 
       <div className="relative mx-auto flex min-h-[88vh] max-w-5xl flex-col items-center justify-center gap-8 px-4 py-24 text-center sm:px-6">
-        <Badge variant="status">HRD final project · AI security assistant</Badge>
+        
 
         <h1 id="hero-title" className="sr-only">
           Reconix

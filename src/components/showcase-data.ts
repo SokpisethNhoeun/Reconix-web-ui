@@ -14,7 +14,7 @@ export const SHOWCASE: ShowcaseItem[] = [
     title: "Scope first. Always.",
     tagline: "Targets, permitted actions, exclusions and limits, written down and approved.",
     points: [
-      "Drafted from a template and your plain-language request",
+      "automatically created using a predefined template, based on your plain-language request",
       "You edit targets, exclusions and assessment limits before anything runs",
       "Selecting a template never authorizes testing on its own",
     ],
@@ -27,57 +27,68 @@ export const SHOWCASE: ShowcaseItem[] = [
     tagline: "Scope, command, risk and limit checks before each tool call.",
     points: [
       "Out-of-scope targets and actions are blocked",
-      "LOW runs automatically; MEDIUM and HIGH wait for your approval",
+      "Security testing only runs after explicit authorization.",
       "Every request, decision and approver lands in the audit log",
     ],
     focus: "backend",
   },
   {
-    eyebrow: "Tool Service",
-    word: "Tools",
-    title: "Approved tools. One scope.",
-    tagline: "Nmap, Nuclei, OWASP ZAP, Semgrep, Gitleaks, Trivy and more, run from validated inputs.",
-    points: [
-      "Commands are built from configured templates, never free text",
-      "Results are normalized into one findings format",
-      "Secrets are masked before output is shown or stored",
-    ],
-    focus: "tools",
+   eyebrow: "Tool Service",
+word: "Tools",
+title: "Approved tools. Controlled execution.",
+tagline: "Run Nmap, Nuclei, OWASP ZAP, Semgrep, Gitleaks, Trivy, and more through validated inputs and defined scope.",
+points: [
+  "Commands are generated from approved templates, not arbitrary free text",
+  "Every tool runs only against targets inside the authorized scope",
+  "Destructive actions require explicit approval before running",
+  "Only enabled and approved integrations can be used",
+],
+focus: "tools",
   },
   {
     eyebrow: "AI Service",
-    word: "Analysis",
-    title: "Findings, not raw output.",
-    tagline: "Classify, correlate across tools, rate severity and attach evidence.",
-    points: [
-      "Confidence below 0.80 is marked NEEDS_REVIEW for a person",
-      "Severity comes from the scanner or CVSS, never a guess",
-      "Each finding keeps its original evidence linked",
-    ],
-    focus: "ai",
+word: "Analysis",
+title: "Findings, not raw output.",
+tagline: "Turn scanner output into structured findings by classifying, correlating, prioritizing, and attaching evidence.",
+
+points: [
+  "Low-confidence findings are flagged NEEDS_REVIEW for human validation",
+  "Severity is derived from scanner data, CVSS, or defined policy rules",
+  "Related results from multiple tools are correlated into one finding",
+  "AI explains the finding without changing the underlying evidence",
+],
+
+focus: "ai",
   },
   {
-    eyebrow: "Knowledge",
-    word: "Knowledge",
-    title: "Grounded in trusted sources.",
-    tagline: "Hybrid search over OWASP, CWE, CVE/NVD and your internal guidance.",
-    points: [
-      "BGE-M3 embeddings in Qdrant plus live NVD lookups",
-      "Internal knowledge first, filtered by the user's role",
-      "Missing facts are marked unknown instead of invented",
-    ],
-    focus: "knowledge",
+eyebrow: "Knowledge Service",
+word: "Knowledge",
+title: "Grounded in trusted sources.",
+tagline: "Combine trusted security standards, vulnerability intelligence, and internal guidance to support every finding.",
+
+points: [
+  "Searches OWASP, CWE, CVE/NVD, advisories, and internal knowledge together",
+  "Internal guidance is prioritized",
+  "Relevant sources are attached so findings can be verified",
+  "External vulnerability data can be refreshed when current information is required",
+],
+
+focus: "knowledge",
   },
   {
     eyebrow: "Local Viewer + Reports",
-    word: "Reports",
-    title: "Review it. Report it.",
-    tagline: "A read-only viewer for every assessment, and a report ready to hand over.",
-    points: [
-      "Findings filtered by severity, target, category and tool",
-      "Masked evidence, validation status and the full audit trail",
-      "Export the report as PDF with scope, findings and remediation",
-    ],
-    focus: "viewer",
+word: "Reports",
+title: "Review it. Report it.",
+tagline: "Inspect every assessment in one read-only view, then generate a handoff-ready security report.",
+
+points: [
+  "Filter findings by severity, target, category, status, and source tool",
+  "Review masked evidence, validation status, remediation, and audit history",
+  "See which findings are confirmed, rejected, or still need review",
+  "Export reports with scope, methodology, findings, evidence, and remediation",
+  "Keep assessment data available locally for review without rerunning tools",
+],
+
+focus: "viewer",
   },
 ];

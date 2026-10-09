@@ -54,7 +54,7 @@ export default function OpenGraphImage() {
           }}
         >
           <div style={{ width: 10, height: 10, borderRadius: 999, background: palette.primary }} />
-          HRD final project · AI security assistant
+          
         </div>
         <div
           style={{

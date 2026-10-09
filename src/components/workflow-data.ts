@@ -68,7 +68,7 @@ export const WORKFLOW_STEPS: WorkflowStep[] = [
     label: "Template",
     icon: LayoutTemplate,
     title: "Choose a template",
-    body: "Pick one of four templates: Network, API, Source Code or Web URL.",
+    body: "Automatic or pick manully one of four templates: Network, API, Source Code or Web URL.",
     detail: [
       "Each template asks for the inputs it needs: hosts, endpoints, a repository or a URL",
       "Selecting a template never authorizes testing on its own",
@@ -91,7 +91,7 @@ export const WORKFLOW_STEPS: WorkflowStep[] = [
     detail: [
       "Targets and exclusions are explicit, nothing is inferred later",
       "Permitted actions and assessment limits are part of the manifest",
-      "You edit it before anything runs",
+      "You can edit it before anything runs",
     ],
     preview: {
       title: "scope-manifest.yaml",
@@ -107,14 +107,17 @@ export const WORKFLOW_STEPS: WorkflowStep[] = [
   },
   {
     id: "approval",
-    label: "Approval",
-    icon: ShieldCheck,
-    title: "Approve the scope",
-    body: "The terminal shows the final manifest. Testing begins only after you explicitly approve it.",
-    detail: [
-      "The approved Scope Manifest is what every later check is measured against",
-      "Without approval, no tool is started",
-    ],
+label: "Approval",
+icon: ShieldCheck,
+title: "Approve the scope",
+body: "Review the final Scope Manifest and explicitly approve it before any testing begins.",
+
+detail: [
+  "Every target, tool, test type, and restriction is checked against the approved scope",
+  "No security tool can start until explicit approval is given",
+  "Changes to the scope require a new review and approval",
+  "Approval is recorded in the audit trail for accountability",
+],
     gate: true,
     preview: {
       title: "approval required",

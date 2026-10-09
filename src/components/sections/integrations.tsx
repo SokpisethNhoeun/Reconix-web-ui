@@ -42,7 +42,7 @@ export function Integrations() {
         {/* 1 · interfaces */}
         <div data-reveal className="grid gap-5 lg:grid-cols-12">
           <Layer id="terminal" kicker="Interface" className="lg:col-span-8" cols="@2xl:grid-cols-3 @md:grid-cols-2" />
-          <Layer id="frontend" kicker="Interface · read-only" className="lg:col-span-4" cols="" />
+          <Layer id="frontend" kicker="Interface" className="lg:col-span-4" cols="" />
         </div>
 
         <Links
