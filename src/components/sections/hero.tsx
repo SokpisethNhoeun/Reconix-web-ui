@@ -39,7 +39,7 @@ export function Hero() {
         <AsciiBanner text="Reconix" variant="hero" decorative />
 
         <TypedLine
-          className="max-w-3xl font-mono text-sm uppercase tracking-[0.14em] text-foreground sm:text-base lg:text-lg"
+          className="max-w-4xl font-mono text-sm uppercase tracking-[0.14em] text-foreground sm:text-base lg:text-lg"
           lines={[
             "AI-planned security assessments inside an approved scope.",
             "From scope manifest to report, every step approved by you.",

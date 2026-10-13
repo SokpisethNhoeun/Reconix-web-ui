@@ -18,14 +18,14 @@ const HUBS = [
 
 const LEAVES = [
   // terminal
-  { hub: "terminal", label: "TUI", sub: "Textual" },
-  { hub: "terminal", label: "/template", sub: "4 templates" },
-  { hub: "terminal", label: "Scope Manifest", sub: "approve", kind: "gate" },
+  { hub: "terminal", label: "TUI", sub: "Terminal interface" },
+  { hub: "terminal", label: "/template", sub: "Assessment templates" },
+  { hub: "terminal", label: "Scope Manifest", sub: "Approval required", kind: "gate" },
   // backend / policy engine
-  { hub: "backend", label: "scope check" },
-  { hub: "backend", label: "risk policy", sub: "LOW · MED · HIGH", kind: "gate" },
-  { hub: "backend", label: "limits", sub: "calls · time" },
-  { hub: "backend", label: "audit log" },
+  { hub: "backend", label: "scope check", sub: "Scope validation" },
+  { hub: "backend", label: "risk policy", sub: "Risk levels: Low / Medium / High", kind: "gate" },
+  { hub: "backend", label: "limits", sub: "Call and time limits" },
+  { hub: "backend", label: "audit log", sub: "Audit records" },
   // ai
   { hub: "ai", label: "classify", sub: "CWE · confidence" },
   { hub: "ai", label: "correlate" },
