@@ -21,6 +21,13 @@ export type DocGroup = {
   description: string;
   icon: LucideIcon;
   pages: DocPage[];
+  /**
+   * In-page section links for a single-page group whose content lives on one route (Overview):
+   * hash anchors into the group's own page (`/docs#<section-slug>`). Rendered as nested sidebar
+   * links like `pages`, but — being hash links — they are intentionally left out of the sitemap,
+   * breadcrumbs, prev/next, the navbar dropdowns and the footer (those read `pages` only).
+   */
+  sections?: DocPage[];
 };
 
 /**
@@ -36,6 +43,12 @@ export const DOCS_NAV: DocGroup[] = [
     description: "What Reconix is, who it is for and the assessments it supports.",
     icon: BookOpen,
     pages: [],
+    // In-page sections of /docs; hrefs must match the DocSection heading slugs on that page.
+    sections: [
+      { title: "What Reconix does", href: "/docs#what-reconix-does", description: "What Reconix is and who it is for." },
+      { title: "Supported assessments", href: "/docs#supported-assessments", description: "The four assessment templates." },
+      { title: "Browse the docs", href: "/docs#browse-the-docs", description: "Jump into the rest of the documentation." },
+    ],
   },
   {
     id: "getting-started",

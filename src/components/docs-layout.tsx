@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, ChevronRight, Info, PencilLine, TriangleAlert } from "lucide-react";
 import { DocsSidebar } from "@/components/docs-sidebar";
-import { DocsToc } from "@/components/docs-toc";
 import { docNeighbours, findDoc } from "@/lib/docs-nav";
 import { cn } from "@/lib/utils";
 
@@ -14,8 +13,10 @@ export const slugify = (s: string) =>
     .replace(/^-|-$/g, "");
 
 /**
- * Docs page frame: grouped sidebar (left), breadcrumb + title + content + prev/next (centre),
- * "On this page" (right, xl). Title, breadcrumb and neighbours all come from DOCS_NAV via `href`.
+ * Docs page frame: the one persistent grouped sidebar (left) and breadcrumb + title + content +
+ * prev/next (right). Title, breadcrumb and neighbours all come from DOCS_NAV via `href`. In-page
+ * section navigation (for the Overview page) lives in the sidebar's expandable Overview group,
+ * not in a separate right-hand rail.
  */
 export function DocsLayout({
   href,
@@ -41,7 +42,7 @@ export function DocsLayout({
   if (entry && !entry.isGroup) crumbs.push({ label: entry.title, href: entry.href });
 
   return (
-    <main className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[230px_minmax(0,1fr)] lg:gap-12 lg:py-14 xl:grid-cols-[230px_minmax(0,1fr)_200px]">
+    <main className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[230px_minmax(0,1fr)] lg:gap-12 lg:py-14">
       <DocsSidebar />
 
       <article className="min-w-0 max-w-3xl">
@@ -110,8 +111,6 @@ export function DocsLayout({
           </nav>
         )}
       </article>
-
-      <DocsToc />
     </main>
   );
 }
